@@ -4,14 +4,14 @@ armor and battle points*/
 $cardDeck = array
   (
   array("Dragon",10,10,2),  //2
-  array("Caotic Wizard Halfling",8,7,3),  //4
-  array("Mage",7,8,5),  //9
-  array("Fearie",3,6,8),  //17
-  array("Wolf",5,5,8),  // 25
-  array("Village Warrior",6,3,15),  // 40
-  array("Speed Cyclist",5,2,10), // 50
-  array("Elf",3,4,20), // 70
-  array("Troll",3,3,20), // 90
+  array("Caotic Wizard Halfling",8,7,3),  //5
+  array("Mage",7,8,5),  //10
+  array("Fearie",3,6,8),  //18
+  array("Wolf",5,5,8),  // 26
+  array("Village Warrior",6,3,15),  // 41
+  array("Speed Cyclist",5,2,10), // 51
+  array("Elf",3,4,20), // 71
+  array("Troll",3,3,20), // 91
   array("Unicorn",1,5,9) // 100
   );
   /* Function to get max probabilty value for each card
@@ -88,34 +88,34 @@ function getKey($rand,$array){
         return 2;
       }
       }
+
+function getHand ($numCards, $cardArray) {
+  // Declare Variables
+  $cardKeys = array();
+  $i = 0;
+  // loop to test and select a card key if it passes the test
+    while($i < $numCards) {
+      $randInt = rand (1,100);
+      $key = getKey($randInt, $cardArray);
+      $test = checkKey($key, $cardKeys, $cardArray);
+          if ($test > 0) {
+            array_push($cardKeys,$key);
+            $i ++;
+          }
+    }
+    return $cardKeys;
+}
+
 // Number of cards in a hand
 $NUM_CARDS = 5;
-$cardKeys = array();
-// $hand will be our counter for the get hand loop
-$hand = 0;
-while($hand < $NUM_CARDS) {
-  $randInt = rand (1,100);
-  $key = getKey($randInt, $cardDeck);
-  $test = checkKey($key, $cardKeys, $cardDeck);
-      if ($test > 0) {
-        array_push($cardKeys,$key);
-        $hand ++;
-      }
-}
-/*for ($i = 0; $i < $NUM_CARDS; $i++) {
-  $randInt = rand (1,100);
-  $key = getKey($randInt, $cardDeck);
-  // Test Key
-  $test = checkKey($key, $cardKeys, $cardDeck);
-  //echo "Test result: " . $test . " The key is" . $key . "<br>";
-    if ($test > 0) {
-      array_push($cardKeys,$key);
-    }
-   else {
-     $i--;
-   }
-}*/
-print_r ($cardKeys);
+// Get the client's hand
+$playerHand = getHand($NUM_CARDS,$cardDeck);
+// Get the Computer's hand
+$compHand = getHand($NUM_CARDS,$cardDeck);
+// Test hands
+print_r ($playerHand);
+echo "<br>";
+print_r ($compHand);
 /* //Test Code
 $cardKey = getKey($randInt, $cardDeck);
 //print_r ($maxArray);
