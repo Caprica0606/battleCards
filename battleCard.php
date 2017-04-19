@@ -1,7 +1,7 @@
 <?php
 /* Declare our Array of cards:  Each card is an array of
 armor and battle points*/
-$cardType = array
+$cardDeck = array
   (
   array("Dragon",10,10,2),  //2
   array("Caotic Wizard Halfling",8,7,3),  //4
@@ -44,7 +44,7 @@ function getMaxArray ($array){
 
 // Function to get the key to a card
 function getKey($rand,$array){
-  // Pass $cardType into getMaxArray to build our comparison array
+  // Pass $cardDeck into getMaxArray to build our comparison array
   $comparisonArray = getMaxArray($array);
   // put our random number into our $maxArray
   array_push($comparisonArray,$rand);
@@ -65,26 +65,56 @@ function getKey($rand,$array){
     return ($cardKey);
     $comparisonArray = array();
 }
+/* Function to check an array of cards to make sure
+  no card is selected more time than it is in the deck*/
+  /* array_count_values: Returns an array where
+  the values of the array passed in will be the keys
+  and the number of times the value is in the
+  array is the value*/
+  function checkKey($keyValue,$keyArray,$deckArray) {
+    // Count how many of each card are in our key array
+    $valueCount = array_count_values($keyArray);
+      if (array_key_exists($keyValue, $valueCount) == true) {
+        $keyCount = $valueCount [$keyValue];
+        $maxInDeck = $deckArray [$keyValue] [3];
+        if ($keyCount > $maxInDeck) {
+          return -1;
+        }
+        else {
+          return 1;
+        }
+        }
+      Else {
+        return 2;
+      }
+      }
 // Number of cards in a hand
 $NUM_CARDS = 5;
 $cardKeys = array();
 // call the getKey function in a loop with i = the number of cards in a hand
+$i
 for ($i = 0; $i < $NUM_CARDS; $i++) {
   $randInt = rand (1,100);
-  $key = getKey($randInt, $cardType);
-  array_push($cardKeys,$key);
+  $key = getKey($randInt, $cardDeck);
+  // Test Key
+  $test = checkKey($key, $cardKeys, $cardDeck);
+  //echo "Test result: " . $test . " The key is" . $key . "<br>";
+    if ($test > 0) {
+      array_push($cardKeys,$key);
+    }
+   else {
+     $i--;
+   }
 }
-print_r($cardKeys);
-
-
+print_r ($cardKeys);
 /* //Test Code
-$cardKey = getKey($randInt, $cardType);
+$cardKey = getKey($randInt, $cardDeck);
 //print_r ($maxArray);
 echo "<br>";
 echo "The random integer is: " . $randInt . ".  The card key is " . $cardKey . "<br>";
 for ($i=0; $i < 10; $i++){
-echo "index: " . $i . " Prob Value: " . $cardType[$i][3] . " ";
-echo "Card: " . $cardType[$i][0] . "  ";
-echo "Max Value: " . getMax($i,$cardType) . "<br>";
+echo "index: " . $i . " Prob Value: " . $cardDeck[$i][3] . " ";
+echo "Card: " . $cardDeck[$i][0] . "  ";
+echo "Max Value: " . getMax($i,$cardDeck) . "<br>";
 } */
  ?>
