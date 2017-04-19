@@ -41,8 +41,7 @@ function getMaxArray ($array){
     }
   return $maxArr;
 }
-// Get a randomly generated integer between 1 & 100
-$randInt = rand (1,100);
+
 // Function to get the key to a card
 function getKey($rand,$array){
   // Pass $cardType into getMaxArray to build our comparison array
@@ -66,28 +65,17 @@ function getKey($rand,$array){
     return ($cardKey);
     $comparisonArray = array();
 }
-
-// Declare Variable
+// Number of cards in a hand
 $NUM_CARDS = 5;
-// Declare card keyy array
-//$cardKeys = array();
-
-// Select the player's hand
-//for ($i = 0; $i++; $i < $NUM_CARDS) {
-  // Get the max array for our deck
-  //$comparisonArray = getMaxArray($cardType);
-
+// call the getKey function in a loop with i = the number of cards in a hand
+for ($i = 0; $i < $NUM_CARDS; $i++) {
+  $randInt = rand (1,100);
+  $key = getKey($randInt, $cardType);
+  echo $key . "<br>";
+}
 
 
-  // Call the function to get the key to a card
-  //$cardKey = getCardKey($randInt, $comparisonArray);
-
-  // Clear the comparison array
-  $comparisonArray = array ();
-//}
-//print_r($cardKeys);
-
- //Test Code
+/* //Test Code
 $cardKey = getKey($randInt, $cardType);
 //print_r ($maxArray);
 echo "<br>";
@@ -96,5 +84,5 @@ for ($i=0; $i < 10; $i++){
 echo "index: " . $i . " Prob Value: " . $cardType[$i][3] . " ";
 echo "Card: " . $cardType[$i][0] . "  ";
 echo "Max Value: " . getMax($i,$cardType) . "<br>";
-}
+} */
  ?>
