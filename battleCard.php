@@ -67,12 +67,14 @@ function getKey($rand,$array){
 }
 // Number of cards in a hand
 $NUM_CARDS = 5;
+$cardKeys = array();
 // call the getKey function in a loop with i = the number of cards in a hand
 for ($i = 0; $i < $NUM_CARDS; $i++) {
   $randInt = rand (1,100);
   $key = getKey($randInt, $cardType);
-  echo $key . "<br>";
+  array_push($cardKeys,$key);
 }
+print_r($cardKeys);
 
 
 /* //Test Code
