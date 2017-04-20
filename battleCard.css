@@ -1,0 +1,40 @@
+/* Top Div*/
+/* Main Div*/
+div.main {
+  margin: 0;
+}
+
+/* Top div*/
+div.top{
+  position: fixed;
+  height: 40%;
+  width: 50%;
+  top: 5%;
+  border-style:dotted;
+  border-size: 1px;
+  border-color: grey;
+}
+
+/* Bottom Div*/
+div.bottom {
+  position: fixed;
+  bottom:5%;
+  height:40%;
+  width:80%;
+  border-style: solid;
+  border-size: 2px;
+  border-color: black;
+  /*float: left;*/
+}
+/* side div*/
+div.side {
+  float: right;
+  width: 40%;
+  height: 80%;
+  border-color: darkblue;
+  border-size: 2px;
+  border-style: dotted;
+}
+img.cards {
+  width: 150px;
+}
