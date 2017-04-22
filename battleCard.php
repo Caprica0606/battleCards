@@ -1,3 +1,62 @@
+<!DOCTYPE html>
+<html>
+<header>
+        <!-- CSS link-->
+        <link rel="stylesheet" type="text/css" href="battleCard.css">
+      <title>Coding Commanders Battlecards</title>
+</header>
+  <body background = "battleCards/background.jpg" >
+      <div class = "main";>
+        <!-- Game Form-->
+       <form name = "gameForm">
+        <!-- Top Container-->
+          <div class = "top">
+              <div class = "cards>"
+                <img src = "battleCards/cardBack2.jpg">   <img src = "battleCards/cardBack.jpg">   <img src = "battleCards/cardBack.jpg">   <img src = "battleCards/cardBack.jpg">   <img src = "battleCards/cardBack.jpg">   <img src = "battleCards/cardBack.jpg">
+              </div>
+            </div>
+            </form>
+          </div>
+          <script>
+          src="https://code.jquery.com/jquery-3.2.1.min.js"
+          integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+          crossorigin="anonymous"></script>
+          <script>
+          // make sure no more than 3 cards are selected
+              function chkcontrol(j) {
+                var total = 0;
+                for(var i = 0; i < 5; i++) {
+                  if(document.pickCards.ckb[i].checked) {
+                  total = total +1;
+                }
+                if(total > 3){
+                  alert("Please Select only three!")
+                  document.form1.ckb[j].checked = false ;
+                  return false;
+                }
+              }
+            }
+            // Calculate the total score
+            function getPoints (i) {
+              var offenseArray = [];
+              var defenseArray = [];
+              for(var i = 0; i < 5; i++) {
+                if(document.pickCards.ckb[i].checked) {
+                  var defense = document.getElementById("battlePoints").value;
+                  var offense = document.getElementById("armor").value;
+                  offenseArray.push(defense);
+                }
+              }
+              var message = document.getElementById("points").innerHTML = offenseArray.toString();
+              alert(offenseArray.join("\n")) //;alert(offenseArray.join("\n"));
+              document.getElementById("submitMe").submit(); //form submission
+
+              //document.getElementById("points").innerHTML = offenseArray.toString();
+}
+            </script>
+
+  </body>
+</html>
 <?php
 /* Declare our Array of cards:  Each card is an array of
 armor and battle points*/
@@ -6,7 +65,7 @@ $cardDeck = array
   array("Dragon",10,10,2),  //2
   array("Caotic Wizard Halfling",8,7,3),  //5
   array("Mage",7,8,5),  //10
-  array("Fearie",3,6,8),  //18
+  array("Ninja Fearie",4,6,8),  //18
   array("Wolf",5,5,8),  // 26
   array("Village Warrior",6,3,15),  // 41
   array("Speed Cyclist",5,2,10), // 51
@@ -14,8 +73,8 @@ $cardDeck = array
   array("Troll",3,3,20), // 91
   array("Unicorn",1,5,9) // 100
   );
-  /* Function to get max probabilty value for each card
-    we will pass in the key and arraay*/
+
+  /* Function to get the to max placement value for each card type*/
   function getMax($key, $array) {
     // Declare $maxValue
     $cardMax = 0;
@@ -112,10 +171,61 @@ $NUM_CARDS = 5;
 $playerHand = getHand($NUM_CARDS,$cardDeck);
 // Get the Computer's hand
 $compHand = getHand($NUM_CARDS,$cardDeck);
-// Test hands
-print_r ($playerHand);
-echo "<br>";
-print_r ($compHand);
+
+// Initialize an array to hold our cards' picture locations
+$picLocation = array
+(
+  array("Dragon", "battleCards/dragonCard.jpg" ),
+  array("Caotic Wizard Halfling","battleCards/halflingCard.jpg" ),  //5
+  array("Mage","battleCards/mageCard.jpg"),  //10
+  array("Ninja Fearie","battleCards/fearieCard.jpg"),  //18
+  array("Wolf","battleCards/wolfCard.jpg"),  // 26
+  array("Village Warrior","battleCards/warriorCard.jpg"),  // 41
+  array("Speed Cyclist","battleCards/cyclistCard.jpg"), // 51
+  array("Elf","battleCards/elf.jpg"), // 71
+  array("Troll","battleCards/trollCardu.jpg"), // 91
+  array("Unicorn","battleCards/UnicornCard.jpg") // 100
+);
+
+// Function to display cards delt to the user
+function displayHand ($hand,$column,$locationArray) {
+  $pictures= array();
+  // Loop through the card keys in the player's hand
+  foreach ($hand as $value) {
+    // Get the location of our pic
+    array_push($pictures, $locationArray [$value] [$column]);
+  }
+    return $pictures;
+}
+// Player's hand
+$cardPictures = displayHand ($playerHand,1,$picLocation);
+
+echo "<div class = 'bottom' align = 'center'>";
+foreach ($cardPictures as $value) {
+  echo " <img class = 'cards' src = '" . $value . "' > ";
+}
+echo "</div>";
+// select hand
+    echo "<div class = 'side'>";
+    echo "<form  action='battleCard.php' id = 'submitMe' method='post' name = 'pickCards'>
+        Which 3 cards would you like to play?" . "<br>";
+    foreach ($playerHand as $value) {
+      $n = 0;
+      echo "<input type='checkbox' name='ckb' onclick='chkcontrol(" . $n . ")'; value=". $cardDeck [$value][0]; . "/>"
+      $defense = $cardDeck[$value][1];
+      echo "<input name = 'battlePoints' type = 'hidden' id = 'battlePoints' value =" . $defense ."/>";
+      echo "<input name = 'armor' type = 'hidden' id = 'armor' value =" .$cardDeck[$value][2] ."/>";
+      $n++;
+    }
+    echo "<input type='submit' name='formSubmit' value='Submit '/>
+    </div>";
+
+
+
+
+
+//print_r ($cardPictures);
+
 /* //Test Code
 $cardKey = getKey($randInt, $cardDeck);
 //print_r ($maxArray);
