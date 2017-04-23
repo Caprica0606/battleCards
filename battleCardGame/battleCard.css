@@ -1,0 +1,61 @@
+/* Top Div*/
+/* Main Div*/
+div.main {
+  margin: 0;
+}
+body {
+  background-image: battleCards/background.jpg;
+  background-size: cover;
+  background-repeat: no-repeat;
+
+}
+/* Top div*/
+div.top{
+  position: fixed;
+  height: 40%;
+  width: 50%;
+  top: 5%;
+  /*border-style:dotted;*/
+  /*border-size: 1px;*/
+  /*border-color: grey;*/
+}
+
+/* Bottom Div*/
+div.bottom {
+  margin-left: 150px;
+  margin-top: 20px;
+  position: fixed;
+  align: center;
+  bottom:5%;
+  height:40%;
+  width:80%;
+  /*border-style: solid;
+  border-size: 2px;
+  border-color: black;*/
+  /*float: left;*/
+}
+/* side div*/
+div.side {
+  margin-top: 20px;
+  position: fixed;
+  margin-left: 700px;
+  color: white;
+  /*border-color: darkblue;
+  border-size: 2px;
+  border-style: dotted;*/
+}
+img.cards {
+  width: 150px;
+}
+
+div.scroll {
+  height: 33%;
+  width: 66%;
+}
+
+  a:hover {
+    background-color: red;
+}
+h1 {
+  color: white;
+}
