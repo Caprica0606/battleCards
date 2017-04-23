@@ -183,69 +183,76 @@ echo "</div>";
     echo "<input type='submit' name='formSubmit' value='Submit '/>";
     echo "</form>";
     echo "</div>";
-
-// Pass the player's choices to php
-$cardSelect = $_POST['cardSelect'];
-//put indexes in Variables
-$BATTLE_KEY = 1;
-$ARMOR_KEY = 2;
-//function to calculate points
-function getPoints ($selectArray,$deckArray,$key) {
-  $count = 0;
-  $points = 0;
-  	 foreach ($selectArray as $deckKey) {
-       if ($count < 3) {
-        $points = $points + $deckArray [$deckKey][$key];
+//******** Code to happen after submit********/
+if(isset($_POST['formSubmit'])) {
+  // Pass the player's choices to php
+  $cardSelect = $_POST['cardSelect'];
+  //put indexes in Variables
+  $BATTLE_KEY = 1;
+  $ARMOR_KEY = 2;
+  //function to calculate points
+  function getPoints ($selectArray,$deckArray,$key) {
+    $count = 0;
+    $points = 0;
+    	 foreach ($selectArray as $deckKey) {
+         if ($count < 3) {
+          $points = $points + $deckArray [$deckKey][$key];
+         }
+         $count++;
        }
-       $count++;
+       return $points;
      }
-     return $points;
-   }
 
-// Get the Computer's hand
-$compHand = getHand($NUM_CARDS,$cardDeck);
-// Computer will select his cards
-sort($compHand);
-array_pop($compHand);
-array_pop($compHand);
-print_r($compHand);
-// Calculate player's Os
-$O_points = getPoints($cardSelect,$cardDeck,$BATTLE_KEY);
-// Calculate player's D
-$D_points = getPoints($cardSelect,$cardDeck,$ARMOR_KEY);
-// Calculate computer's Os
-$bigOs = getPoints($compHand,$cardDeck,$BATTLE_KEY);
-// Calculate computer's D
-$bigD =  getPoints($compHand,$cardDeck,$ARMOR_KEY);
-echo $bigOs;
-$playerDamaged = $D_points - $bigOs;
-$computerDamaged = $bigD - $O_points;
-$toReturn = "";
-if ($playerDamaged < 0) {
-  $playerDied = 1;
-  $toReturn .= "You ran out of armor and died!  ";
-}
-if ($computerDamaged < 0) {
-  $compDied = 1;
-  $toReturn .= "Your oppent ran out of armor and died.  ";
-}
-else{
-  $playerScore = $O_points - $bigD;
-  $compScore = $bigOs - $D_points;
-  $toReturn .= "Your score is " . $playerScore . ".  ";
-  $toReturn .= "Your opponent scored " . $compScore . ".  ";
-  if ($playerScore > $compScore) {
-      $toReturn .= "  You win!";
+  // Get the Computer's hand
+  $compHand = getHand($NUM_CARDS,$cardDeck);
+  // Computer will select his cards
+  sort($compHand);
+  array_pop($compHand);
+  array_pop($compHand);
+  print_r($compHand);
+  // Display Computer's hand
+  $compPictures = displayHand ($compHand,1,$picLocation);
+  foreach ($compPictures as $value) {
+    echo " <img class = 'cards' src = '" . $value . "' > ";
   }
-  elseif ($compScore > $playerScore) {
-    $toReturn .= "  You have been defeated.";
+  // Calculate player's Os
+  $O_points = getPoints($cardSelect,$cardDeck,$BATTLE_KEY);
+  // Calculate player's D
+  $D_points = getPoints($cardSelect,$cardDeck,$ARMOR_KEY);
+  // Calculate computer's Os
+  $bigOs = getPoints($compHand,$cardDeck,$BATTLE_KEY);
+  // Calculate computer's D
+  $bigD =  getPoints($compHand,$cardDeck,$ARMOR_KEY);
+  // Calculate D after attack
+  $playerDamaged = $D_points - $bigOs;
+  $computerDamaged = $bigD - $O_points;
+  $toReturn = "";
+  if ($computerDamaged < 0) {
+    $compDied = 1;
+    $toReturn .= "Your oppent ran out of armor and died.  ";
   }
-  else {
-    $toReturn .= "  It is a draw.";
+  if ($playerDamaged < 0) {
+    $playerDied = 1;
+    $toReturn .= "You ran out of armor and died!  ";
   }
-}
-echo $toReturn;
+  else{
+    $playerScore = $O_points - $bigD;
+    $compScore = $bigOs - $D_points;
+    $toReturn .= "Your score is " . $playerScore . ".  ";
+    $toReturn .= "Your opponent scored " . $compScore . ".  ";
+      if ($playerScore > $compScore) {
+          $toReturn .= "  You win!";
+      }
+      elseif ($compScore > $playerScore) {
+        $toReturn .= "  You have been defeated.";
+      }
+      else {
+        $toReturn .= "  You and your oppenent recieved the same score.";
+      }
+  }
 
+  echo $toReturn;
+}
 /* //Test Code
 $cardKey = getKey($randInt, $cardDeck);
 //print_r ($maxArray);
